@@ -9,13 +9,13 @@ public class Todo {
     private String username; // Foreign key reference
     private String description;
     private LocalDate targetDate;
-    private boolean status;
+    private String status;
 
     protected Todo() {
 
     }
 
-    public Todo(Long id, String title, Long userId, String username, String description, LocalDate targetDate, boolean isDone) {
+    public Todo(Long id, String title, Long userId, String username, String description, LocalDate targetDate, String status) {
         super();
         this.id = id;
         this.title = title;
@@ -23,17 +23,17 @@ public class Todo {
         this.username = username;
         this.description = description;
         this.targetDate = targetDate;
-        this.status = isDone;
+        this.status = status;
     }
 
-    public Todo(String title, Long userId, String username, String description, LocalDate targetDate, boolean isDone) {
+    public Todo(String title, Long userId, String username, String description, LocalDate targetDate, String status) {
         super();
         this.title = title;
         this.userId = userId;
         this.username = username;
         this.description = description;
         this.targetDate = targetDate;
-        this.status = isDone;
+        this.status = status;
     }
 
     public Long getId() {
@@ -84,11 +84,11 @@ public class Todo {
         this.targetDate = targetDate;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

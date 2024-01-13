@@ -72,9 +72,12 @@
 
     <fieldset class="form-group">
      <label>Todo Status</label> <select class="form-control"
-      name="isDone">
-      <option value="false">In Progress</option>
-      <option value="true">Complete</option>
+      name="status">
+      <option value= "New">New</option>
+      <option value= "In Progress">In Progress</option>
+      <option value="Complete">Complete</option>
+      <option value="Blocked">Blocked</option>
+      
      </select>
     </fieldset>
 

@@ -77,7 +77,7 @@ public class TodoController extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        long id = Long.parseLong(request.getParameter("id"));
+        final long id = Long.parseLong(request.getParameter("id"));
         Todo existingTodo = todoDao.selectTodo(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
         request.setAttribute("todo", existingTodo);
@@ -87,12 +87,12 @@ public class TodoController extends HttpServlet {
     private void insertTodo(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         
-        String title = request.getParameter("title");
-        Long userId = Long.parseLong(request.getParameter("userId"));
-        String username = request.getParameter("username");
-        String description = request.getParameter("description");
-        LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"));
-        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        final String title = request.getParameter("title");
+        final Long userId = Long.parseLong(request.getParameter("userId"));
+        final String username = request.getParameter("username");
+        final String description = request.getParameter("description");
+        final LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"));
+        final String status = request.getParameter("status");
 
         Todo newTodo = new Todo(title, userId, username, description, targetDate, status);
         todoDao.insertTodo(newTodo);
@@ -105,23 +105,24 @@ public class TodoController extends HttpServlet {
 
     private void updateTodo(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        long id = Long.parseLong(request.getParameter("id"));
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        String targetDate = request.getParameter("targetDate");
-        LocalDate targetLocalDate = LocalDate.parse(targetDate);
+        final long id = Long.parseLong(request.getParameter("id"));
+        final String title = request.getParameter("title");
+        final String description = request.getParameter("description");
+        final String targetDate = request.getParameter("targetDate");
+        final LocalDate targetLocalDate = LocalDate.parse(targetDate);
+        final String status = request.getParameter("status");
 
-        Long userId = Long.parseLong(request.getParameter("userId"));
-        String username = request.getParameter("username");
+        final Long userId = Long.parseLong(request.getParameter("userId"));
+        final String username = request.getParameter("username");
 
-        Todo todo = new Todo(id, title, userId, username, description, targetLocalDate, false);
+        Todo todo = new Todo(id, title, userId, username, description, targetLocalDate, status);
         todoDao.updateTodo(todo);
         response.sendRedirect("list");
     }
 
     private void deleteTodo(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        long id = Long.parseLong(request.getParameter("id"));
+        final long id = Long.parseLong(request.getParameter("id"));
         todoDao.deleteTodo(id);
         response.sendRedirect("list");
     }
