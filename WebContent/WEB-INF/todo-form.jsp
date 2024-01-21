@@ -1,9 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
- pageEncoding="UTF-8"%>
+<%@page import="net.javaguides.todoapp.dao.TodoDaoImpl"%>
+<%@ page  import = "net.javaguides.todoapp.dao.UserCRUD"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>User Management Application</title>
+<title>TODO Application</title>
 
 <link rel="stylesheet"
  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -18,17 +20,16 @@
   <nav class="navbar navbar-expand-md navbar-dark"
    style="background-color: #0f4c81">
    <div>
-    <a href="https://www.csccclub.com" class="navbar-brand"> Todo
-     App</a>
+    <a href="https://www.csccclub.com" class="navbar-brand"> Todo App</a>
    </div>
 
    <ul class="navbar-nav">
-    <li><a href="<%=request.getContextPath()%>/list"
+    <li><a href="<%=request.getContextPath()%>/todo/list"
      class="nav-link">Todos</a></li>
    </ul>
 
    <ul class="navbar-nav navbar-collapse justify-content-end">
-    <li><a href="<%=request.getContextPath()%>/logout"
+    <li><a href="<%=request.getContextPath()%>/todo/logout"
      class="nav-link">Logout</a></li>
    </ul>
   </nav>
@@ -37,10 +38,10 @@
   <div class="card">
    <div class="card-body">
     <c:if test="${todo != null}">
-     <form action="update" method="post">
+     <form action="/todo/update" method="post">
     </c:if>
     <c:if test="${todo == null}">
-     <form action="insert" method="post">
+     <form action="/todo/insert" method="post">
     </c:if>
 
     <caption>
@@ -86,6 +87,20 @@
       value="<c:out value='${todo.targetDate}' />" class="form-control"
       name="targetDate" required="required">
     </fieldset>
+    
+
+    
+    <fieldset class="form-group">
+    <label>Users</label>
+    <select class="form-control" name="userId">
+        <option value=""></option>
+
+        <c:forEach var="User" items="${listUser}">
+            <option value="${user.id}">${user.getFirstName()} - ${user.getLastName()}</option>
+        </c:forEach>
+
+    </select>
+</fieldset>
 
     <button type="submit" class="btn btn-success">Save</button>
     </form>

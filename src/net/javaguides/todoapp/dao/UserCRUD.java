@@ -1,4 +1,4 @@
-package net.javaguides.usermanagement.dao;
+package net.javaguides.todoapp.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,10 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.javaguides.usermanagement.model.User;
+import net.javaguides.todoapp.model.User;
+//import net.javaguides.todoapp.model.User;
 
 
-public class UserDAO {
+public class UserCRUD {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "root";
@@ -24,7 +25,7 @@ public class UserDAO {
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
     private static final String UPDATE_USERS_SQL = "update users set first_name = ?,last_name= ?, username=? where id = ?;";
 
-    public UserDAO() {}
+    public UserCRUD() {}
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -40,21 +41,21 @@ public class UserDAO {
         }
         return connection;
     }
-
+    //TO TEST LATER
     public void insertUser(User user) throws SQLException {
         System.out.println(INSERT_USERS_SQL);
         // try-with-resource statement will auto close the connection.
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.username());
+            preparedStatement.setString(3, user.getUsername());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             printSQLException(e);
         }
     }
-
+    //TO TEST LATER
     public User selectUser(int id) {
         User user = null;
         // Step 1: Establishing a Connection
@@ -68,17 +69,17 @@ public class UserDAO {
 
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String username = rs.getString("username");
-                user = new User(id, first_name, last_name, username);
+                //String first_name = rs.getString("first_name");
+                //String last_name = rs.getString("last_name");
+                //String username = rs.getString("username");
+                user = new User();
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
         return user;
     }
-
+    // NEED THIS FOR THE DROPDOWN 
     public List < User > selectAllUsers() {
 
         // using try-with-resources to avoid closing resources (boiler plate code)
@@ -94,18 +95,17 @@ public class UserDAO {
 
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String username = rs.getString("username");
-                users.add(new User(id, first_name, last_name, username));
+                // Use the constructor directly to create a User object
+                User user = new User();
+
+                users.add(user);
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
         return users;
     }
-
+    //TO TEST LATER------------------------------------
     public boolean deleteUser(int id) throws SQLException {
         boolean rowDeleted;
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
@@ -120,8 +120,8 @@ public class UserDAO {
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
-            statement.setString(3, user.username());
-            statement.setInt(4, user.getId());
+            statement.setString(3, user.getUsername());
+            statement.setFloat(4, user.getId());
 
             rowUpdated = statement.executeUpdate() > 0;
         }

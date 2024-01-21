@@ -1,4 +1,4 @@
-package net.javaguides.usermanagement.web;
+package net.javaguides.todoapp.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,18 +11,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import net.javaguides.usermanagement.dao.UserDAO;
-import net.javaguides.usermanagement.model.User;
+import net.javaguides.todoapp.dao.UserCRUD;
+import net.javaguides.todoapp.model.User;
 
 
 
-@WebServlet("/todo")
-public class UserServlet extends HttpServlet {
+@WebServlet("/users/*")
+public class UserCRUDController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UserDAO userDAO;
+    private UserCRUD userDAO;
 
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = new UserCRUD();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -32,23 +32,28 @@ public class UserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String action = request.getServletPath();
+    	
+    	final String servletPath = request.getServletPath();
+        final String pathInfo = request.getPathInfo();
+    	final String action = servletPath + (pathInfo != null ? pathInfo : "");
+
+         System.out.println("Action: " + action);  // Print the action for debugging
 
         try {
             switch (action) {
-                case "/new":
+                case "users/new":
                     showNewForm(request, response);
                     break;
-                case "/insert":
+                case "users/insert":
                     insertUser(request, response);
                     break;
-                case "/delete":
+                case "users/delete":
                     deleteUser(request, response);
                     break;
-                case "/edit":
+                case "users/edit":
                     showEditForm(request, response);
                     break;
-                case "/update":
+                case "users/update":
                     updateUser(request, response);
                     break;
                 default:
@@ -59,15 +64,15 @@ public class UserServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
-
+ // USING THIS FOR DROPDOWN
     private void listUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException, ServletException {
         List<User> listUser = userDAO.selectAllUsers();
         request.setAttribute("listUser", listUser);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
         dispatcher.forward(request, response);
     }
-
+// ALL THIS FOR LATER -----------------------------------------------------
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-form.jsp");
@@ -86,31 +91,31 @@ public class UserServlet extends HttpServlet {
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
-        String username = request.getParameter("username");
-        User newUser = new User(first_name, last_name, username);
+        //String first_name = request.getParameter("first_name");
+       // String last_name = request.getParameter("last_name");
+       // String username = request.getParameter("username");
+        User newUser = new User();
         userDAO.insertUser(newUser);
-        response.sendRedirect("list");
+        response.sendRedirect("/users/list");
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
-        String username = request.getParameter("username");
+        //int id = Integer.parseInt(request.getParameter("id"));
+        //String first_name = request.getParameter("first_name");
+        //String last_name = request.getParameter("last_name");
+        //String username = request.getParameter("username");
 
-        User user = new User(id, first_name, last_name, username);
+        User user = new User();
         userDAO.updateUser(user);
-        response.sendRedirect("list");
+        response.sendRedirect("/users/list");
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         userDAO.deleteUser(id);
-        response.sendRedirect("list");
+        response.sendRedirect("/users/list");
 
     }
 }

@@ -15,9 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.javaguides.todoapp.dao.TodoDao;
 import net.javaguides.todoapp.dao.TodoDaoImpl;
 import net.javaguides.todoapp.model.Todo;
-import net.javaguides.todoapp.model.User;
 
-@WebServlet("/")
+@WebServlet("/todo/*")
 public class TodoController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TodoDao todoDao;
@@ -33,23 +32,27 @@ public class TodoController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getServletPath();
+        final String servletPath = request.getServletPath();
+        final String pathInfo = request.getPathInfo();
+        final String action = servletPath + (pathInfo != null ? pathInfo : "");
+
+        System.out.println("Action: " + action);  // Print the action for debugging
 
         try {
             switch (action) {
-                case "/new":
+                case "/todo/new":
                     showNewForm(request, response);
                     break;
-                case "/insert":
+                case "/todo/insert":
                     insertTodo(request, response);
                     break;
-                case "/delete":
+                case "/todo/delete":
                     deleteTodo(request, response);
                     break;
-                case "/edit":
+                case "/todo/edit":
                     showEditForm(request, response);
                     break;
-                case "/update":
+                case "/todo/update":
                     updateTodo(request, response);
                     break;
                 default:
@@ -60,6 +63,7 @@ public class TodoController extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+
 
     private void listTodos(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
@@ -100,7 +104,7 @@ public class TodoController extends HttpServlet {
 
         //Todo newTodo = new Todo(title, userId, username, description, targetLocalDate, false);
         //todoDao.insertTodo(newTodo);
-        response.sendRedirect("list");
+        response.sendRedirect("todo/list");
     }
 
     private void updateTodo(HttpServletRequest request, HttpServletResponse response)
@@ -117,13 +121,13 @@ public class TodoController extends HttpServlet {
 
         Todo todo = new Todo(id, title, userId, username, description, targetLocalDate, status);
         todoDao.updateTodo(todo);
-        response.sendRedirect("list");
+        response.sendRedirect("todo/list");
     }
 
     private void deleteTodo(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         final long id = Long.parseLong(request.getParameter("id"));
         todoDao.deleteTodo(id);
-        response.sendRedirect("list");
+        response.sendRedirect("todo/list");
     }
 }

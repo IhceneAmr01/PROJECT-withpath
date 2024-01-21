@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
              else {
                 HttpSession session = request.getSession();
                 //session.setAttribute("user", username);
-                //response.sendRedirect("/WEB-INF/login.jsp");
+               // response.sendRedirect("/WEB-INF/login.jsp");
             }
             
         } catch (ClassNotFoundException e) {

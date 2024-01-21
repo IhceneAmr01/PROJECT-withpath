@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 import net.javaguides.todoapp.model.User;
 import net.javaguides.todoapp.utils.JDBCUtils;
 
 public class UserDao {
+	
+	
 
     public int registerEmployee(User employee) throws ClassNotFoundException {
         String INSERT_USERS_SQL = "INSERT INTO users" +
@@ -33,4 +36,6 @@ public class UserDao {
         }
         return result;
     }
+    
+    
 }
