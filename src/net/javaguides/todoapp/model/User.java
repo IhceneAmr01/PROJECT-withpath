@@ -7,22 +7,22 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     private long id; // Add the id field
 
-    private String firstName; 
-    private String lastName;
+    private String first_name; 
+    private String last_name;
     private String username;
     private String password;
    
 	public String getFirstName() {
-        return firstName;
+        return first_name;
     }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
     public String getUsername() {
         return username;

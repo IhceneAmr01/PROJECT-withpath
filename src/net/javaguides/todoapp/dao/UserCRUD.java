@@ -17,7 +17,7 @@ public class UserCRUD {
         " (?, ?, ?);";
 
     private static final String SELECT_USER_BY_ID = "select id,first_name,last_name,username from users where id =?";
-    private static final String SELECT_ALL_USERS = "select * from users";
+    private static final String SELECT_ALL_USERS = "select * from users;";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
     private static final String UPDATE_USERS_SQL = "update users set first_name = ?,last_name= ?, username=? where id = ?;";
 
@@ -86,8 +86,8 @@ public class UserCRUD {
                 // Use the constructor directly to create a User object
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setLastName(rs.getString("lastname"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
 
                 users.add(user);
             }

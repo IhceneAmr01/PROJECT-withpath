@@ -94,8 +94,8 @@
     <select class="form-control" name="userId">
         <option value=""></option>
 
-        <c:forEach var="user" items="${users}">
-            <option value="${user.id}">${user.firstname} - ${user.lastname}</option>
+        <c:forEach var="user" items="${listUser}">
+            <option value="${user.id}">${user.username}</option>
         </c:forEach>
     </select>
 </fieldset>
