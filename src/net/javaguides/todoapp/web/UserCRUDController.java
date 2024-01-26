@@ -57,26 +57,19 @@ public class UserCRUDController extends HttpServlet {
                     updateUser(request, response);
                     break;
                 default:
-                    listUser1(request, response);
+                    listUser(request, response);
                     break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
     }
+ 
  // USING THIS FOR DROPDOWN
-    private void listUser1(HttpServletRequest request, HttpServletResponse response)
+    private void listUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException, ServletException {
-        List<User> listUser1 = userDAO.selectAllUsers();
-        request.setAttribute("listUser1", listUser1);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/list-users.jsp");
-        dispatcher.forward(request, response);
-    }
- // USING THIS FOR DROPDOWN
-    private void listUser2(HttpServletRequest request, HttpServletResponse response)
-    throws SQLException, IOException, ServletException {
-        List<User> listUser2 = userDAO.selectAllUsers();
-        request.setAttribute("listUser", listUser2);
+        List<User> listUser = userDAO.selectAllUsers();
+        request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
         dispatcher.forward(request, response);
     }
