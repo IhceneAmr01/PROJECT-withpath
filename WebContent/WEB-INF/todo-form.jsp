@@ -72,8 +72,7 @@
     </fieldset>
 
     <fieldset class="form-group">
-     <label>Todo Status</label> <select class="form-control"
-      name="status">
+     <label>Todo Status</label> <select class="form-control" name="status">
       <option value= "New">New</option>
       <option value= "In Progress">In Progress</option>
       <option value="Complete">Complete</option>
@@ -95,10 +94,9 @@
     <select class="form-control" name="userId">
         <option value=""></option>
 
-        <c:forEach var="User" items="${listUser}">
-            <option value="${user.id}">${user.getFirstName()} - ${user.getLastName()}</option>
+        <c:forEach var="user" items="${users}">
+            <option value="${user.id}">${user.firstname} - ${user.lastname}</option>
         </c:forEach>
-
     </select>
 </fieldset>
 

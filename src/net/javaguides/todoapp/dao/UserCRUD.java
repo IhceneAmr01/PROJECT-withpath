@@ -85,6 +85,9 @@ public class UserCRUD {
             while (rs.next()) {
                 // Use the constructor directly to create a User object
                 User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLastName(rs.getString("lastname"));
 
                 users.add(user);
             }
