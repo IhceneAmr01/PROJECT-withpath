@@ -48,8 +48,8 @@ public class UserCRUD {
         User user = null;
         // Step 1: Establishing a Connection
         try (Connection connection = JDBCUtils.getConnection();
-            // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
+             // Step 2: Create a statement using connection object
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
@@ -57,16 +57,21 @@ public class UserCRUD {
 
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
-                //String first_name = rs.getString("first_name");
-                //String last_name = rs.getString("last_name");
-                //String username = rs.getString("username");
-                user = new User();
+                // Use the existing 'id' variable declared at the class level
+                int userId = rs.getInt("id");
+                String first_name = rs.getString("first_name");
+                String last_name = rs.getString("last_name");
+                String username = rs.getString("username");
+
+                // Assuming you have a constructor in the User class that accepts these parameters
+                user = new User(userId, first_name, last_name, username);
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
         return user;
     }
+
     // NEED THIS FOR THE DROPDOWN 
     public List < User > selectAllUsers() {
 

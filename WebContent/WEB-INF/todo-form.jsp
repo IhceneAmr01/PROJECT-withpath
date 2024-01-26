@@ -91,7 +91,7 @@
     
     <fieldset class="form-group">
     <label>Users</label>
-    <select class="form-control" name="userId">
+    <select class="form-control" name="id">
         <option value=""></option>
 
         <c:forEach var="user" items="${listUser}">
