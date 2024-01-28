@@ -13,30 +13,25 @@ import net.javaguides.todoapp.utils.JDBCUtils;
 
 public class TodoDaoImpl implements TodoDao {
 
-    private static final String INSERT_TODOS_SQL = "INSERT INTO todos (title, user_id, username, description, target_date, status) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_TODO_BY_ID = "SELECT id, title, user_id, username, description, target_date, status FROM todos WHERE id = ?";
-    private static final String SELECT_ALL_TODOS = "SELECT id, title, user_id, username, description, target_date, status FROM todos";
+    private static final String INSERT_TODOS_SQL = "INSERT INTO todos (title, description, target_date, status, user_id) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_TODO_BY_ID = "SELECT id, title, description, target_date, status, user_id FROM todos WHERE id = ?";
+    private static final String SELECT_ALL_TODOS = "SELECT id, title, description, target_date, status, user_id FROM todos";
     private static final String DELETE_TODO_BY_ID = "DELETE FROM todos WHERE id = ?";
-    private static final String UPDATE_TODO = "UPDATE todos SET title = ?, user_id = ?, username = ?, description = ?, target_date = ?, status = ? WHERE id = ?";
+    private static final String UPDATE_TODO = "UPDATE todos SET title = ?, description = ?, target_date = ?, status = ?, user_id = ? WHERE id = ?";
    // private static final String SELECT_USER_BY_ID = "SELECT id, username FROM users WHERE id = ?";
 
     @Override
     public void insertTodo(Todo todo) throws SQLException {
-    	
-    	
         try (Connection connection = JDBCUtils.getConnection();
              PreparedStatement insertStatement = connection.prepareStatement(INSERT_TODOS_SQL)) {
             insertStatement.setString(1, todo.getTitle());
-            insertStatement.setLong(2, todo.getUserId());
-            insertStatement.setString(3, todo.getUsername());
-            insertStatement.setString(4, todo.getDescription());
-            insertStatement.setDate(5, JDBCUtils.getSQLDate(todo.getTargetDate()));
-            insertStatement.setString(6, todo.getStatus());
-
+            insertStatement.setString(2, todo.getDescription()); // Corrected index
+            insertStatement.setDate(3, JDBCUtils.getSQLDate(todo.getTargetDate())); // Corrected index
+            insertStatement.setString(4, todo.getStatus()); // Corrected index
+            insertStatement.setInt(5, todo.getUserId());
             insertStatement.executeUpdate();
         }
     }
-
     @Override
     public Todo selectTodo(long todoId) {
         Todo todo = null;
@@ -48,15 +43,15 @@ public class TodoDaoImpl implements TodoDao {
             while (rs.next()) {
                 long id = rs.getLong("id");
                 String title = rs.getString("title");
-                Long userId = rs.getLong("user_id");
-                String username = rs.getString("username");
                 String description = rs.getString("description");
                 LocalDate targetDate = rs.getDate("target_date").toLocalDate();
                 String status = rs.getString("status");
                 
+                int user_id = rs.getInt("user_id");
+                
 
                 
-                todo = new Todo(id, title, userId, username, description, targetDate, status);
+                todo = new Todo(id, title, description, targetDate, status, user_id);
             }
         } catch (SQLException exception) {
             JDBCUtils.printSQLException(exception);
@@ -64,10 +59,6 @@ public class TodoDaoImpl implements TodoDao {
         return todo;
     }
     
-
-
-    
-
 
     @Override
     public List<Todo> selectAllTodos() {
@@ -78,13 +69,14 @@ public class TodoDaoImpl implements TodoDao {
             while (rs.next()) {
                 long id = rs.getLong("id");
                 String title = rs.getString("title");
-                Long userId = rs.getLong("user_id");
-                String username = rs.getString("username");
                 String description = rs.getString("description");
                 LocalDate targetDate = rs.getDate("target_date").toLocalDate();
                 String status = rs.getString("status");
                 
-                todos.add(new Todo(id, title, userId, username, description, targetDate, status));
+                int user_id = rs.getInt("user_id");
+
+                
+                todos.add(new Todo(id, title, description, targetDate, status, user_id));
             }
         } catch (SQLException exception) {
             JDBCUtils.printSQLException(exception);
@@ -108,13 +100,13 @@ public class TodoDaoImpl implements TodoDao {
         boolean rowUpdated;
         try (Connection connection = JDBCUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_TODO)) {
-            statement.setString(1, todo.getTitle());
-            statement.setLong(2, todo.getUserId());
-            statement.setString(3, todo.getUsername());
-            statement.setString(4, todo.getDescription());
-            statement.setDate(5, JDBCUtils.getSQLDate(todo.getTargetDate()));
-            statement.setString(6, todo.getStatus());
-            statement.setLong(7, todo.getId());
+        	statement.setString(1, todo.getTitle());
+            statement.setString(2, todo.getDescription()); // Corrected index
+            statement.setDate(3, JDBCUtils.getSQLDate(todo.getTargetDate())); // Corrected index
+            statement.setString(4, todo.getStatus()); // Corrected index
+            statement.setLong(5, todo.getId()); // Corrected index
+            statement.setInt(6, todo.getUserId()); // Corrected index
+
             rowUpdated = statement.executeUpdate() > 0;
         
         }

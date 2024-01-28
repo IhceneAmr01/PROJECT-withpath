@@ -17,20 +17,14 @@
     <a href="https://www.csccclub.com" class="navbar-brand"> Todo App</a>
    </div>
 
-   <ul class="navbar-nav">
-    <li><a href="<%=request.getContextPath()%>/todo/list"
-     class="nav-link">Todos</a></li>
-   </ul>
+   
    
    <ul class="navbar-nav">
     <li><a href="<%=request.getContextPath()%>/users/list"
      class="nav-link">Users</a></li>
    </ul>
 
-   <ul class="navbar-nav navbar-collapse justify-content-end">
-    <li><a href="<%=request.getContextPath()%>/todo/logout"
-     class="nav-link">Logout</a></li>
-   </ul>
+   
   </nav>
  </header>
 
@@ -49,6 +43,7 @@
    <table class="table table-bordered">
     <thead>
      <tr>
+           <th>ID</th>
       <th>Firstname</th>
       <th>Lastname</th>
       <th>Username</th>
@@ -60,8 +55,9 @@
      <c:forEach var="user" items="${listUser}">
 
       <tr>
-       <td><c:out value="${user.firstname}" /></td>
-       <td><c:out value="${user.lastname}" /></td>
+             <td><c:out value="${user.id}" /></td>
+       <td><c:out value="${user.firstName}" /></td>
+       <td><c:out value="${user.lastName}" /></td>
        <td><c:out value="${user.username}" /></td>
 
        <td><a href="<%=request.getContextPath()%>/users/edit?id=<c:out value='${user.id}' />">Edit</a>

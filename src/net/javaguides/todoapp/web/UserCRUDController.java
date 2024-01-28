@@ -65,18 +65,16 @@ public class UserCRUDController extends HttpServlet {
         }
     }
  
- // USING THIS FOR DROPDOWN
     private void listUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException, ServletException {
         List<User> listUser = userDAO.selectAllUsers();
         request.setAttribute("listUser", listUser);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/list-users.jsp");
         dispatcher.forward(request, response);
     }
-// ALL THIS FOR LATER -----------------------------------------------------
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/form-users.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -84,7 +82,7 @@ public class UserCRUDController extends HttpServlet {
     throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         User existingUser = userDAO.selectUser(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/form-users.jsp");
         request.setAttribute("user", existingUser);
         dispatcher.forward(request, response);
 
@@ -92,22 +90,26 @@ public class UserCRUDController extends HttpServlet {
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
-        //String first_name = request.getParameter("first_name");
-       // String last_name = request.getParameter("last_name");
-       // String username = request.getParameter("username");
-        User newUser = new User();
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String username = request.getParameter("username");
+        
+		User newUser = new User(id, first_name, last_name, username);
         userDAO.insertUser(newUser);
         response.sendRedirect("/users/list");
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
-        //int id = Integer.parseInt(request.getParameter("id"));
-        //String first_name = request.getParameter("first_name");
-        //String last_name = request.getParameter("last_name");
-        //String username = request.getParameter("username");
+    	int id = Integer.parseInt(request.getParameter("id"));
 
-        User user = new User();
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String username = request.getParameter("username");
+        
+		User user = new User(id, first_name, last_name, username);
         userDAO.updateUser(user);
         response.sendRedirect("/users/list");
     }

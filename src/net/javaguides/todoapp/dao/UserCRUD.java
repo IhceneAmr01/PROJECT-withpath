@@ -93,7 +93,7 @@ public class UserCRUD {
                 user.setId(rs.getInt("id"));
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
-
+                user.setUsername(rs.getString("username"));
                 users.add(user);
             }
         } catch (SQLException e) {

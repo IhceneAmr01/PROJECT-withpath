@@ -22,20 +22,14 @@
     <a href="https://www.csccclub.com" class="navbar-brand"> Todo App</a>
    </div>
 
-   <ul class="navbar-nav">
-    <li><a href="<%=request.getContextPath()%>/todo/list"
-     class="nav-link">Todos</a></li>
-   </ul>
+   
    
    <ul class="navbar-nav">
     <li><a href="<%=request.getContextPath()%>/users/list"
      class="nav-link">Users</a></li>
    </ul>
 
-   <ul class="navbar-nav navbar-collapse justify-content-end">
-    <li><a href="<%=request.getContextPath()%>/todo/logout"
-     class="nav-link">Logout</a></li>
-   </ul>
+   
   </nav>
  </header>
 
@@ -43,10 +37,10 @@
   <div class="card">
    <div class="card-body">
     <c:if test="${users != null}">
-     <form action="/users/update" method="post">
+     <form action="<%=request.getContextPath()%>/users/update" method="post">
     </c:if>
     <c:if test="${users == null}">
-     <form action="/users/insert" method="post">
+     <form action="<%=request.getContextPath()%>/users/insert" method="post">
     </c:if>
 
     <caption>
@@ -66,13 +60,13 @@
 
     <fieldset class="form-group">
      <label>Firstname</label> <input type="text"
-      value="<c:out value='${user.firstname}' />" class="form-control"
+      value="<c:out value='${user.firstName}' />" class="form-control"
       name="firstname" required="required" minlength="5">
     </fieldset>
 
     <fieldset class="form-group">
      <label>Lastname</label> <input type="text"
-      value="<c:out value='${user.lastname}' />" class="form-control"
+      value="<c:out value='${user.lastName}' />" class="form-control"
       name="description" minlength="5">
     </fieldset>
     

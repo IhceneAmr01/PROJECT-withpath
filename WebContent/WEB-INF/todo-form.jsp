@@ -38,10 +38,10 @@
   <div class="card">
    <div class="card-body">
     <c:if test="${todo != null}">
-     <form action="/todo/update" method="post">
+     <form action="<%=request.getContextPath()%>/todo/update" method="post">
     </c:if>
     <c:if test="${todo == null}">
-     <form action="/todo/insert" method="post">
+     <form action="<%=request.getContextPath()%>/todo/insert" method="post">
     </c:if>
 
     <caption>
@@ -95,7 +95,7 @@
         <option value=""></option>
 
         <c:forEach var="user" items="${listUser}">
-            <option value="${user.id}">${user.username}</option>
+            <option value='${user.id}'>${user.username} </option>
         </c:forEach>
     </select>
 </fieldset>

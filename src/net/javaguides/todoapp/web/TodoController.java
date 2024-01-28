@@ -14,15 +14,19 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import net.javaguides.todoapp.dao.TodoDao;
 import net.javaguides.todoapp.dao.TodoDaoImpl;
+import net.javaguides.todoapp.dao.UserCRUD;
 import net.javaguides.todoapp.model.Todo;
+import net.javaguides.todoapp.model.User;
 
 @WebServlet("/todo/*")
 public class TodoController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TodoDao todoDao;
+    private UserCRUD userDAO;
 
     public void init() {
         todoDao = new TodoDaoImpl();
+        userDAO = new UserCRUD();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -67,7 +71,7 @@ public class TodoController extends HttpServlet {
 
     private void listTodos(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        List<Todo> listTodo = todoDao.selectAllTodos();
+        final List<Todo> listTodo = todoDao.selectAllTodos();
         request.setAttribute("listTodo", listTodo);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-list.jsp");
         dispatcher.forward(request, response);
@@ -75,6 +79,8 @@ public class TodoController extends HttpServlet {
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	final List<User> listUser = userDAO.selectAllUsers();
+        request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
         dispatcher.forward(request, response);
     }
@@ -83,6 +89,8 @@ public class TodoController extends HttpServlet {
             throws SQLException, ServletException, IOException {
         final long id = Long.parseLong(request.getParameter("id"));
         Todo existingTodo = todoDao.selectTodo(id);
+        final List<User> listUser = userDAO.selectAllUsers();
+        request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-form.jsp");
         request.setAttribute("todo", existingTodo);
         dispatcher.forward(request, response);
@@ -92,13 +100,17 @@ public class TodoController extends HttpServlet {
             throws SQLException, IOException {
         
         final String title = request.getParameter("title");
-        final Long userId = Long.parseLong(request.getParameter("userId"));
-        final String username = request.getParameter("username");
         final String description = request.getParameter("description");
         final LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"));
         final String status = request.getParameter("status");
+        final List<User> listUser = userDAO.selectAllUsers();
 
-        Todo newTodo = new Todo(title, userId, username, description, targetDate, status);
+        int user_id = -1; // Set a default value, or handle the case where listUser is empty
+        if (!listUser.isEmpty()) {
+            user_id = (int) listUser.get(0).getId(); // Assuming User class has a getId() method
+        }
+
+        Todo newTodo = new Todo(title, description, targetDate, status, user_id);
         todoDao.insertTodo(newTodo);
         
 
@@ -111,15 +123,21 @@ public class TodoController extends HttpServlet {
             throws SQLException, IOException {
         final long id = Long.parseLong(request.getParameter("id"));
         final String title = request.getParameter("title");
+        
         final String description = request.getParameter("description");
         final String targetDate = request.getParameter("targetDate");
         final LocalDate targetLocalDate = LocalDate.parse(targetDate);
         final String status = request.getParameter("status");
+        final List<User> listUser = userDAO.selectAllUsers();
 
-        final Long userId = Long.parseLong(request.getParameter("userId"));
-        final String username = request.getParameter("username");
+        // Use the user_id of the first user from the list
+        int user_id = -1; // Set a default value, or handle the case where listUser is empty
+        if (!listUser.isEmpty()) {
+            user_id = (int) listUser.get(0).getId(); // Assuming User class has a getId() method
+        }
 
-        Todo todo = new Todo(id, title, userId, username, description, targetLocalDate, status);
+
+        Todo todo = new Todo(id, title, description, targetLocalDate, status, user_id);
         todoDao.updateTodo(todo);
         response.sendRedirect("todo/list");
     }

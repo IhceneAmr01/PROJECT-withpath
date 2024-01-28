@@ -5,35 +5,32 @@ import java.time.LocalDate;
 public class Todo {
     private Long id;
     private String title;
-    private Long userId; // Foreign key reference
-    private String username; // Foreign key reference
     private String description;
     private LocalDate targetDate;
     private String status;
+    private int user_id;
 
     protected Todo() {
 
     }
 
-    public Todo(Long id, String title, Long userId, String username, String description, LocalDate targetDate, String status) {
+    public Todo(Long id, String title, String description, LocalDate targetDate, String status, int user_id) {
         super();
         this.id = id;
         this.title = title;
-        this.userId = userId;
-        this.username = username;
         this.description = description;
         this.targetDate = targetDate;
         this.status = status;
+        this.user_id = user_id;
     }
 
-    public Todo(String title, Long userId, String username, String description, LocalDate targetDate, String status) {
+    public Todo(String title, String description, LocalDate targetDate, String status, int user_id) {
         super();
         this.title = title;
-        this.userId = userId;
-        this.username = username;
         this.description = description;
         this.targetDate = targetDate;
         this.status = status;
+        this.user_id = user_id;
     }
 
     public Long getId() {
@@ -52,21 +49,7 @@ public class Todo {
         this.title = title;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    
 
     public String getDescription() {
         return description;
@@ -91,7 +74,14 @@ public class Todo {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    
+    public int getUserId() {
+    	return user_id;
+    }
+    public void setUserId(int user_id) {
+    	this.user_id = user_id;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
