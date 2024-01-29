@@ -21,6 +21,14 @@
     <li><a href="<%=request.getContextPath()%>/users/list"
      class="nav-link">Users</a></li>
    </ul>
+   <ul class="navbar-nav">
+    <li><a href="<%=request.getContextPath()%>/todo/list"
+     class="nav-link">Todos</a></li>
+   </ul>
+   <ul class="navbar-nav navbar-collapse justify-content-end">
+    <li><a href="<%=request.getContextPath()%>/users/logout"
+     class="nav-link">Logout</a></li>
+   </ul>
   </nav>
  </header>
 

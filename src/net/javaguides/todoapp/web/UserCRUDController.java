@@ -87,9 +87,9 @@ public class UserCRUDController extends HttpServlet {
 
     private void listUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        List<User> listUser = userDAO.selectAllUsers();
+        final List<User> listUser = userDAO.selectAllUsers();
         request.setAttribute("listUser", listUser);
-        List<String> roles = Arrays.asList("Team 1", "Team 2", "Team 3");
+        final List<String> roles = Arrays.asList("Team 1", "Team 2", "Team 3");
         request.setAttribute("roles", roles);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/list-users.jsp");
@@ -104,37 +104,37 @@ public class UserCRUDController extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userDAO.selectUser(id);
+        final int id = Integer.parseInt(request.getParameter("id"));
+        final User existingUser = userDAO.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/form-users.jsp");
-        request.setAttribute("user", existingUser);
+        request.setAttribute("listUser", existingUser);
         dispatcher.forward(request, response);
     }
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        //int id = Integer.parseInt(request.getParameter("id"));
 
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
-        String username = request.getParameter("username");
-        String role = request.getParameter("role"); // Add role parameter
-        int score = Integer.parseInt(request.getParameter("score")); // Add score parameter
+        final String first_name = request.getParameter("first_name");
+        final String last_name = request.getParameter("last_name");
+        final String username = request.getParameter("username");
+        final String role = request.getParameter("role"); // Add role parameter
+        final int score = Integer.parseInt(request.getParameter("score")); // Add score parameter
 
-        User newUser = new User(id, first_name, last_name, username, role, score);
+        User newUser = new User(first_name, last_name, username, role, score);
         userDAO.insertUser(newUser);
         response.sendRedirect(request.getContextPath() + "/users/list");
     }
 
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        final int id = Integer.parseInt(request.getParameter("id"));
 
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
-        String username = request.getParameter("username");
-        String role = request.getParameter("role"); // Add role parameter
-        int score = Integer.parseInt(request.getParameter("score")); // Add score parameter
+        final String first_name = request.getParameter("first_name");
+        final String last_name = request.getParameter("last_name");
+        final String username = request.getParameter("username");
+        final String role = request.getParameter("role"); // Add role parameter
+        final int score = Integer.parseInt(request.getParameter("score")); // Add score parameter
 
         User user = new User(id, first_name, last_name, username, role, score);
         userDAO.updateUser(user);
@@ -143,7 +143,7 @@ public class UserCRUDController extends HttpServlet {
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        final int id = Integer.parseInt(request.getParameter("id"));
         userDAO.deleteUser(id);
         response.sendRedirect(request.getContextPath() + "/users/list");
     }

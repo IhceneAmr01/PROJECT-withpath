@@ -26,6 +26,14 @@ public class User implements Serializable {
         this.role = role;
         this.score = score;
     }
+    
+    public User(String first_name, String last_name, String username, String role, int score) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.username = username;
+        this.role = role;
+        this.score = score;
+    }
    
 	public String getFirstName() {
         return first_name;

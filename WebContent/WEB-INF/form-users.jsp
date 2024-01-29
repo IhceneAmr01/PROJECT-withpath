@@ -27,7 +27,14 @@
     <li><a href="<%=request.getContextPath()%>/users/list"
      class="nav-link">Users</a></li>
    </ul>
-
+	<ul class="navbar-nav">
+    <li><a href="<%=request.getContextPath()%>/todo/list"
+     class="nav-link">Todos</a></li>
+   </ul>
+   <ul class="navbar-nav navbar-collapse justify-content-end">
+    <li><a href="<%=request.getContextPath()%>/users/logout"
+     class="nav-link">Logout</a></li>
+   </ul>
    
   </nav>
  </header>
@@ -54,42 +61,39 @@
     </caption>
 
     <c:if test="${users != null}">
-     <input type="hidden" name="id" value="<c:out value='${user.id}' />" />
+     <input type="hidden" name="id" value="<c:out value='${listUser.id}' />" />
     </c:if>
 
     <fieldset class="form-group">
-     <label>Firstname</label> <input type="text"
-      value="<c:out value='${user.firstName}' />" class="form-control"
-      name="first_name" required="required" minlength="5">
-    </fieldset>
+    <label>Firstname</label>
+    <input type="text" value="<c:out value='${empty user ? "" : listUser.firstName}' />" class="form-control" name="first_name" required="required" minlength="5">
+</fieldset>
 
-    <fieldset class="form-group">
-     <label>Lastname</label> <input type="text"
-      value="<c:out value='${user.lastName}' />" class="form-control"
-      name="last_name" minlength="5">
-    </fieldset>
-    
-    <fieldset class="form-group">
-     <label>Username</label> <input type="text"
-      value="<c:out value='${user.username}' />" class="form-control"
-      name="username" minlength="5">
-    </fieldset>
-	
-	 <!-- Role dropdown -->
-                <fieldset class="form-group">
-                    <label>Role</label>
-                    <select class="form-control" name="role">
-                        <c:forEach var="role" items="${roles}">
-                            <option value="<c:out value='${role}' />"><c:out value='${role}' /></option>
-                        </c:forEach>
-                    </select>
-                </fieldset>
+<fieldset class="form-group">
+    <label>Lastname</label>
+    <input type="text" value="<c:out value='${empty user ? "" : listUser.lastName}' />" class="form-control" name="last_name" minlength="5">
+</fieldset>
 
-                <!-- Score input -->
-                <fieldset class="form-group">
-                    <label>Score</label>
-                    <input type="number" value="<c:out value='${user.score}' />" class="form-control" name="score" />
-                </fieldset>
+<fieldset class="form-group">
+    <label>Username</label>
+    <input type="text" value="<c:out value='${empty user ? "" : listUser.username}' />" class="form-control" name="username" minlength="5">
+</fieldset>
+
+<!-- Role dropdown -->
+<fieldset class="form-group">
+    <label>Role</label>
+    <select class="form-control" name="role">
+        <c:forEach var="role" items="${roles}">
+            <option value="<c:out value='${empty user ? "" : listUser.role}' />"><c:out value='${empty user ? "" : listUser.role}' /></option>
+        </c:forEach>
+    </select>
+</fieldset>
+
+<!-- Score input -->
+<fieldset class="form-group">
+    <label>Score</label>
+    <input type="number" value="<c:out value='${empty user ? "" : listUser.score}' />" class="form-control" name="score" />
+</fieldset>
 
 
     <button type="submit" class="btn btn-success">Save</button>

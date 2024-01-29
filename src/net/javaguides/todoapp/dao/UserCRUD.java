@@ -126,6 +126,8 @@ public class UserCRUD {
             //statement.setInt(4, (int) user.getId());
             statement.setString(4, user.getRole());
             statement.setInt(5, user.getScore());
+            statement.setInt(6, (int) user.getId());
+
 
             rowUpdated = statement.executeUpdate() > 0;
         }

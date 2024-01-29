@@ -16,7 +16,10 @@
    <div>
     <a href="https://www.csccclub.com" class="navbar-brand"> Todo App</a>
    </div>
-
+	<ul class="navbar-nav">
+    <li><a href="<%=request.getContextPath()%>/users/list"
+     class="nav-link">Users</a></li>
+   </ul>
    <ul class="navbar-nav">
     <li><a href="<%=request.getContextPath()%>/todo/list"
      class="nav-link">Todos</a></li>
