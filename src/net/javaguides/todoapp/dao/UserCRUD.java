@@ -13,13 +13,11 @@ import net.javaguides.todoapp.utils.JDBCUtils;
 public class UserCRUD {
     
 
-    private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (first_name, last_name, username) VALUES " +
-        " (?, ?, ?);";
-
-    private static final String SELECT_USER_BY_ID = "select id,first_name,last_name,username from users where id =?";
-    private static final String SELECT_ALL_USERS = "select * from users;";
-    private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update users set first_name = ?,last_name= ?, username=? where id = ?;";
+	    private static final String INSERT_USERS_SQL = "INSERT INTO users (first_name, last_name, username, role, score) VALUES (?, ?, ?, ?, ?);";
+	    private static final String SELECT_USER_BY_ID = "SELECT id, first_name, last_name, username, role, score FROM users WHERE id = ?";
+	    private static final String SELECT_ALL_USERS = "SELECT id, first_name, last_name, username, role, score FROM users";
+	    private static final String DELETE_USERS_SQL = "DELETE FROM users WHERE id = ?";
+	    private static final String UPDATE_USERS_SQL = "UPDATE users SET first_name = ?, last_name = ?, username = ?, role = ?, score = ? WHERE id = ?";
 
     public UserCRUD() {}
 
@@ -37,6 +35,8 @@ public class UserCRUD {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getUsername());
+            preparedStatement.setString(4, user.getRole());
+            preparedStatement.setInt(5, user.getScore());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -62,9 +62,11 @@ public class UserCRUD {
                 String first_name = rs.getString("first_name");
                 String last_name = rs.getString("last_name");
                 String username = rs.getString("username");
+                String role = rs.getString("role");
+                int score = rs.getInt("score");
 
-                // Assuming you have a constructor in the User class that accepts these parameters
-                user = new User(userId, first_name, last_name, username);
+                user = new User(userId, first_name, last_name, username, role, score);
+
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -94,6 +96,8 @@ public class UserCRUD {
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
                 user.setUsername(rs.getString("username"));
+                user.setRole(rs.getString("role"));
+                user.setScore(rs.getInt("score"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -119,7 +123,9 @@ public class UserCRUD {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getUsername());
-            statement.setFloat(4, user.getId());
+            //statement.setInt(4, (int) user.getId());
+            statement.setString(4, user.getRole());
+            statement.setInt(5, user.getScore());
 
             rowUpdated = statement.executeUpdate() > 0;
         }

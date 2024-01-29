@@ -2,7 +2,6 @@ package net.javaguides.todoapp.web;
 
 import java.io.IOException;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 
 import net.javaguides.todoapp.dao.LoginDao;
 import net.javaguides.todoapp.model.LoginBean;
-
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -26,7 +24,6 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -40,27 +37,21 @@ public class LoginController extends HttpServlet {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(username);
         loginBean.setPassword(password);
-        
 
         try {
             if (loginDao.validate(loginBean)) {
-            	if (loginBean.getUsername().equals("admin") && loginBean.getPassword().equals("admin")) {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/list-user.jsp");
-                    dispatcher.forward(request, response);
-            	}
-            	else {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/todo-list.jsp");
-                dispatcher.forward(request, response);
-                }}
-             else {
                 HttpSession session = request.getSession();
-                //session.setAttribute("user", username);
-               // response.sendRedirect("/WEB-INF/login.jsp");
+                session.setAttribute("user", username);
+                session.setAttribute("loggedIn", true); // Set a session attribute for logged-in status
+                response.sendRedirect(request.getContextPath() + "/todo/list");
+            } else {
+                // Handle invalid login
+                request.setAttribute("errorMessage", "Invalid credentials. Please try again.");
+                request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             }
-            
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

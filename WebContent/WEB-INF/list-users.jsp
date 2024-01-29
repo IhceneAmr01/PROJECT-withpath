@@ -16,26 +16,19 @@
    <div>
     <a href="https://www.csccclub.com" class="navbar-brand"> Todo App</a>
    </div>
-
-   
    
    <ul class="navbar-nav">
     <li><a href="<%=request.getContextPath()%>/users/list"
      class="nav-link">Users</a></li>
    </ul>
-
-   
   </nav>
  </header>
 
  <div class="row">
-  <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
-
   <div class="container">
    <h3 class="text-center">List of Users</h3>
    <hr>
    <div class="container text-left">
-
     <a href="<%=request.getContextPath()%>/users/new"
      class="btn btn-success">Add User</a>
    </div>
@@ -43,33 +36,31 @@
    <table class="table table-bordered">
     <thead>
      <tr>
-           <th>ID</th>
+      <th>ID</th>
       <th>Firstname</th>
       <th>Lastname</th>
       <th>Username</th>
+      <th>Role</th> <!-- Added Role column -->
+      <th>Score</th> <!-- Added Score column -->
       <th>Actions</th>
      </tr>
     </thead>
     <tbody>
-     <!--   for (Todo todo: todos) {  -->
      <c:forEach var="user" items="${listUser}">
-
       <tr>
-             <td><c:out value="${user.id}" /></td>
+       <td><c:out value="${user.id}" /></td>
        <td><c:out value="${user.firstName}" /></td>
        <td><c:out value="${user.lastName}" /></td>
        <td><c:out value="${user.username}" /></td>
-
-       <td><a href="<%=request.getContextPath()%>/users/edit?id=<c:out value='${user.id}' />">Edit</a>
-        <a href="<%=request.getContextPath()%>/users/delete?id=<c:out value='${user.id}' />">Delete</a></td>
-
-       <!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
-                 <button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+       <td><c:out value="${user.role}" /></td> <!-- Display Role -->
+       <td><c:out value="${user.score}" /></td> <!-- Display Score -->
+       <td>
+        <a href="<%=request.getContextPath()%>/users/edit?id=<c:out value='${user.id}' />">Edit</a>
+        <a href="<%=request.getContextPath()%>/users/delete?id=<c:out value='${user.id}' />">Delete</a>
+       </td>
       </tr>
      </c:forEach>
-     <!-- } -->
     </tbody>
-
    </table>
   </div>
  </div>

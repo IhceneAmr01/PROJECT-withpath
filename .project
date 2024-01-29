@@ -28,4 +28,26 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/WEB-INF/img</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WEB-INF/img/pic1.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Desktop/img/pic1.jpg</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WEB-INF/img/pic2.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Desktop/img/pic2.jpg</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WEB-INF/img/pic3.png</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Desktop/img/pic3.png</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

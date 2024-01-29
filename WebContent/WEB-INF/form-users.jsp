@@ -11,7 +11,6 @@
  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
  crossorigin="anonymous">
 
-</head>
 
 </head>
 <body>
@@ -61,21 +60,36 @@
     <fieldset class="form-group">
      <label>Firstname</label> <input type="text"
       value="<c:out value='${user.firstName}' />" class="form-control"
-      name="firstname" required="required" minlength="5">
+      name="first_name" required="required" minlength="5">
     </fieldset>
 
     <fieldset class="form-group">
      <label>Lastname</label> <input type="text"
       value="<c:out value='${user.lastName}' />" class="form-control"
-      name="description" minlength="5">
+      name="last_name" minlength="5">
     </fieldset>
     
     <fieldset class="form-group">
      <label>Username</label> <input type="text"
       value="<c:out value='${user.username}' />" class="form-control"
-      name="description" minlength="5">
+      name="username" minlength="5">
     </fieldset>
+	
+	 <!-- Role dropdown -->
+                <fieldset class="form-group">
+                    <label>Role</label>
+                    <select class="form-control" name="role">
+                        <c:forEach var="role" items="${roles}">
+                            <option value="<c:out value='${role}' />"><c:out value='${role}' /></option>
+                        </c:forEach>
+                    </select>
+                </fieldset>
 
+                <!-- Score input -->
+                <fieldset class="form-group">
+                    <label>Score</label>
+                    <input type="number" value="<c:out value='${user.score}' />" class="form-control" name="score" />
+                </fieldset>
 
 
     <button type="submit" class="btn btn-success">Save</button>

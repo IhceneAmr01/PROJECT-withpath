@@ -11,7 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import net.javaguides.todoapp.dao.TodoDao;
 import net.javaguides.todoapp.dao.TodoDaoImpl;
 import net.javaguides.todoapp.dao.UserCRUD;
@@ -40,7 +40,10 @@ public class TodoController extends HttpServlet {
         final String pathInfo = request.getPathInfo();
         final String action = servletPath + (pathInfo != null ? pathInfo : "");
 
-        System.out.println("Action: " + action);  // Print the action for debugging
+        HttpSession session = request.getSession(false);
+
+        // Check if the user is logged in
+        boolean loggedIn = session != null && session.getAttribute("loggedIn") != null && (boolean) session.getAttribute("loggedIn");
 
         try {
             switch (action) {
@@ -59,7 +62,22 @@ public class TodoController extends HttpServlet {
                 case "/todo/update":
                     updateTodo(request, response);
                     break;
+                case "/todo/logout":
+                    if (loggedIn) {
+                        // Logout action
+                        if (session != null) {
+                            session.invalidate();
+                            response.sendRedirect(request.getContextPath() + "/login");
+                            return;
+                        }
+                    }
+                    break;
                 default:
+                    // If not logged in, redirect to login page
+                    if (!loggedIn) {
+                        response.sendRedirect(request.getContextPath() + "/login");
+                        return;
+                    }
                     listTodos(request, response);
                     break;
             }

@@ -11,16 +11,20 @@ public class User implements Serializable {
     private String last_name;
     private String username;
     private String password;
+    private String role;
+    private int score;
 
     public User() {
     }
     
-    public User(int id, String first_name, String last_name, String username ) {
+    public User(int id, String first_name, String last_name, String username, String role, int score ) {
     	super();
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
+        this.role = role;
+        this.score = score;
     }
    
 	public String getFirstName() {
@@ -53,9 +57,22 @@ public class User implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void setIdAndUsername(long id2, String username2) {
-		// TODO Auto-generated method stub
-		
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 }
